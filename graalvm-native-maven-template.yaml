@@ -47,7 +47,6 @@ objects:
                     stage('build image') {
                         steps {
                            sh '''
-                             curl https://raw.githubusercontent.com/petenorth/graalvm-native-maven-template/master/Dockerfile-native -O
                              oc start-build ${APP_NAME}-ubuntu --from-dir=. --follow
                           '''
                         }
@@ -55,7 +54,6 @@ objects:
                     stage('scratch image build') {
                         steps {
                            sh '''
-                             curl https://raw.githubusercontent.com/petenorth/graalvm-native-maven-template/master/Dockerfile -O
                              oc start-build ${APP_NAME}-scratch --from-dir=. --follow
                           '''
                         } 
@@ -86,8 +84,9 @@ objects:
     runPolicy: Serial
     source:
       dockerfile: |-
-        FROM jee-runtime:latest
-        COPY ROOT.war /deployments/ROOT.war
+        FROM scratch
+        COPY /target/gs-rest-service-0.1.0 /app
+        CMD ["/app"]
       images:
       - from:
           kind: ImageStreamTag
@@ -138,9 +137,16 @@ objects:
     resources: {}
     runPolicy: Serial
     source:
-      git:
-        ref: master
-        uri: https://github.com/petenorth/graalvm-native-maven-template.git
+      dockerfile: |-
+        FROM petenorth/graal:1.0.0-rc5
+        RUN apt-get update && apt-get -y install gcc zlib1g-dev
+        COPY target /target/
+        WORKDIR /target
+        RUN native-image \
+              --no-server \
+              -H:+ReportUnsupportedElementsAtRuntime \
+              --static \
+              -jar $(ls *.jar)
       type: Git
     strategy:
       dockerStrategy:
