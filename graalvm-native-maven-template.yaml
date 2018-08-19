@@ -85,9 +85,9 @@ objects:
     resources: {}
     runPolicy: Serial
     source:
-      git:
-        ref: master
-        uri: https://github.com/petenorth/graalvm-native-maven-template.git
+      dockerfile: |-
+        FROM jee-runtime:latest
+        COPY ROOT.war /deployments/ROOT.war
       images:
       - from:
           kind: ImageStreamTag
