@@ -85,8 +85,7 @@ objects:
     source:
       dockerfile: |-
         FROM scratch
-        RUN ls /target/*
-        COPY /target/gs-rest-service-0.1.0 /app
+        COPY /target/app /app
         CMD ["/app"]
       images:
       - from:
@@ -148,6 +147,7 @@ objects:
               -H:+ReportUnsupportedElementsAtRuntime \
               --static \
               -jar $(ls *.jar)
+        RUN mv $(basename $(ls *.jar) .jar) app
       type: Git
     strategy:
       dockerStrategy:
