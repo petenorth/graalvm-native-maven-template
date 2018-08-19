@@ -56,7 +56,7 @@ objects:
     source:
       git:
         ref: master
-        uri: https://github.com/petenorth/graalvm-spring-boot-native-pipeline.git
+        uri: https://github.com/petenorth/graalvm-native-maven-template.git
       images:
       - from:
           kind: ImageStreamTag
@@ -109,7 +109,7 @@ objects:
     source:
       git:
         ref: master
-        uri: https://github.com/petenorth/graalvm-spring-boot-native-pipeline.git
+        uri: https://github.com/petenorth/graalvm-native-maven-template.git
       type: Git
     strategy:
       dockerStrategy:
