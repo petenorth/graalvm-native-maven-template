@@ -47,6 +47,7 @@ objects:
                     stage('build image') {
                         steps {
                            sh '''
+                             curl https://raw.githubusercontent.com/petenorth/graalvm-native-maven-template/master/Dockerfile-native -O
                              oc start-build ${APP_NAME}-ubuntu --from-dir=. --follow
                           '''
                         }
@@ -54,6 +55,7 @@ objects:
                     stage('scratch image build') {
                         steps {
                            sh '''
+                             curl https://raw.githubusercontent.com/petenorth/graalvm-native-maven-template/master/Dockerfile-native -O
                              oc start-build ${APP_NAME}-scratch --from-dir=. --follow
                           '''
                         } 
