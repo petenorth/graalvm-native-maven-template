@@ -22,15 +22,44 @@ objects:
     postCommit: {}
     resources: {}
     runPolicy: Serial
-    source:
-      git:
-        ref: ${GIT_BRANCH}
-        uri: ${GIT_REPO}
-      type: Git
     strategy:
       jenkinsPipelineStrategy:
-        jenkinsfilePath: jenkins/Jenkinsfile
-      type: JenkinsPipeline
+        jenkinsfile: |-
+            pipeline {
+                agent {
+                  node {
+                    label 'maven'
+                  }
+                }
+                stages {
+                    stage('checkout'){
+                        steps{
+                          git url: '${GIT_REPO}', branch: '${GIT_BRANCH}'
+                        }
+                    }
+                    stage('build') {
+                        steps {
+                           sh '''
+                             mvn clean package
+                          ''' 
+                        }
+                    } 
+                    stage('build image') {
+                        steps {
+                           sh '''
+                             oc start-build ${APP_NAME}-ubuntu --from-dir=. --follow
+                          '''
+                        }
+                    } 
+                    stage('scratch image build') {
+                        steps {
+                           sh '''
+                             oc start-build ${APP_NAME}-scratch --from-dir=. --follow
+                          '''
+                        } 
+                    }
+                }
+            } 
     triggers: []
   status:
     lastVersion: 0
