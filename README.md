@@ -7,9 +7,11 @@ To use this maven template checkout this project and
       -p GIT_BRANCH=<GIT_BRANCH> \
       -p APP_NAME=<APP_NAME> | oc create -f -
 
-Or the template can be referenced via a URL (here shown with example values)
+Or the template can be referenced via a URL 
 
-    oc process -f https://raw.githubusercontent.com/petenorth/graalvm-native-maven-template/master/graalvm-native-maven-template.yaml \
+## Spring Boot (not working)
+
+    oc process -f graalvm-native-maven-template.yaml \
       -p GIT_REPO=https://github.com/petenorth/graalvm-spring-boot-native-pipeline.git \
       -p GIT_BRANCH=master \
       -p APP_NAME=test | oc create -f -
@@ -36,3 +38,17 @@ Currently the Spring Boot application will fail to start with this is the log
 	at org.springframework.boot.loader.JarLauncher.<init>(JarLauncher.java:35)
 	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:51)
 	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:177)
+
+## Working Netty
+
+    oc process -f graalvm-native-maven-template.yaml \
+      -p GIT_REPO=https://github.com/petenorth/netty-native-demo.git \
+      -p GIT_BRANCH=master \
+      -p APP_NAME=test \
+      -p REFLECTION_CONFIGURATION_RESOURCES=netty_reflection_config.json | oc create -f -
+
+    oc new-app test-scratch
+    oc expose dc/test-scratch --port=8080
+    oc expose svc/test-scratch
+
+

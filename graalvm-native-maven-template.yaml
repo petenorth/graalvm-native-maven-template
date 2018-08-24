@@ -10,6 +10,8 @@ parameters:
     description: "The git repo branch to use"
   - name: APP_NAME
     descriptiom: "The app name used in build config and image stream names"
+  - name: REFLECTION_CONFIGURATION_RESOURCES
+    description: classpath location of resources for reflection configuration.
 objects:
 - apiVersion: v1
   kind: BuildConfig
@@ -40,6 +42,7 @@ objects:
                     stage('build') {
                         steps {
                            sh '''
+                             mvn install:install-file -Dfile=${JAVA_HOME}/jre/lib/svm/builder/svm.jar -DgroupId=com.oracle.substratevm -DartifactId=svm -Dversion=GraalVM-1.0.0-rc5 -Dpackaging=jar
                              mvn clean package
                           ''' 
                         }
@@ -146,6 +149,7 @@ objects:
         RUN native-image \
               --no-server \
               -H:+ReportUnsupportedElementsAtRuntime \
+              -H:ReflectionConfigurationResources=${REFLECTION_CONFIGURATION_RESOURCES} \
               --static \
               -jar $(ls *.jar)
         RUN mv $(basename $(ls *.jar) .jar) app
