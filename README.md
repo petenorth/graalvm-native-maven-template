@@ -1,5 +1,9 @@
 # graalvm-native-maven-template
 
+## Prerequisites
+
+An Openshift cluster, I use minishift.
+
 To use this maven template checkout this project and
 
     oc process -f graalvm-native-maven-template.yaml \
@@ -7,7 +11,17 @@ To use this maven template checkout this project and
       -p GIT_BRANCH=<GIT_BRANCH> \
       -p APP_NAME=<APP_NAME> | oc create -f -
 
-Or the template can be referenced via a URL 
+Or the template can be referenced via a URL. 
+
+Start a pipeline build with 
+  
+    oc start-build test-pipeline
+
+this will fail but will result in a Jenkins instance being started.
+
+The Jenkins needs to be reconfigured so that the maven slave points to 
+
+    docker.io/petenorth/graalvm-jenkins-slave:latest 
 
 ## Working Netty
 
