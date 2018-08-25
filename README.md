@@ -1,5 +1,9 @@
 # graalvm-native-maven-template
 
+This template will setup a Jenkins pipeline running in Openshift that builds a statically linked native image from a maven style project using the GraalVM technology. Note that the maven style project must be configured to build an uber jar i.e. something like Spring Boot. The `native-image` GraalVM executable does take a classpath option (just like javac etc.) so the template could be enhanced if this is needed.
+
+The pipeline is based on https://zeit.co/zeit/java-spark-graal/dpfwezzbxs/source . Openshift does not support multi stage docker builds, so I followed https://blog.openshift.com/chaining-builds/ to work around this.
+
 ## Prerequisites
 
 An Openshift cluster, I use minishift.
