@@ -4,6 +4,8 @@ This template will setup a Jenkins pipeline running in Openshift that builds a s
 
 The pipeline is based on https://zeit.co/zeit/java-spark-graal/dpfwezzbxs/source . Openshift does not support multi stage docker builds, so I followed https://blog.openshift.com/chaining-builds/ to work around this.
 
+The netty,vertx and spring-boot repos used in the examples below are generally forks of pre-existing work!
+
 ## Prerequisites
 
 An Openshift cluster, I use minishift.
