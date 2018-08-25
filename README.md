@@ -32,12 +32,24 @@ The Jenkins needs to be reconfigured so that the maven slave points to
     oc process -f graalvm-native-maven-template.yaml \
       -p GIT_REPO=https://github.com/petenorth/netty-native-demo.git \
       -p GIT_BRANCH=master \
-      -p APP_NAME=test \
+      -p APP_NAME=netty \
       -p REFLECTION_CONFIGURATION_RESOURCES=netty_reflection_config.json | oc create -f -
 
-    oc new-app test-scratch
-    oc expose dc/test-scratch --port=8080
-    oc expose svc/test-scratch
+    oc new-app netty-scratch
+    oc expose dc/netty-scratch --port=8080
+    oc expose svc/netty-scratch
+    
+## Working Vert.x
+
+    oc process -f https://raw.githubusercontent.com/petenorth/graalvm-native-maven-template/master/graalvm-native-maven-template.yaml   \ 
+      -p GIT_REPO=https://github.com/petenorth/vertx-graalvm.git \
+      -p GIT_BRANCH=master \
+      -p APP_NAME=vertx \
+      -p REFLECTION_CONFIGURATION_RESOURCES=netty_reflection_config.json | oc create -f -
+      
+    oc new-app vertx-scratch
+    oc expose dc/vertx-scratch --port=8080
+    oc expose svc/vertx-scratch
 
 ## Spring Boot (not working)
 
