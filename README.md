@@ -6,6 +6,18 @@ The pipeline is based on https://zeit.co/zeit/java-spark-graal/dpfwezzbxs/source
 
 The netty,vertx and spring-boot repos used in the examples below are generally forks of pre-existing work!
 
+## Alternative template
+
+I have also provided an alternative template (suffixed `-alternative`!) which dispenses with the intermediate Docker build and relies on a Jenkins slave which is capable doing the native image build. This slave is based on the Cloudbees Java tools Jenkins slave . This is necessary as the default Openshift Maven slave is RHEL or Centos based and the `native-image` would only work building a statically linked image with Ubuntu, the Cloudbees slave is Ubuntu based. 
+
+In this case the Jenkins needs to be reconfigured so that the maven slave points to 
+
+    docker.io/petenorth/graalvm-jenkins-slave:ubuntu
+    
+The source code for the Docker images is in 
+
+    https://github.com/petenorth/graalvm-jenkins-slave
+
 ## Prerequisites
 
 An Openshift cluster, I use minishift.
@@ -29,6 +41,10 @@ The Jenkins needs to be reconfigured so that the maven slave points to
 
     docker.io/petenorth/graalvm-jenkins-slave:latest 
 
+The source code for the Docker images is in 
+
+    https://github.com/petenorth/graalvm-jenkins-slave
+    
 ## Working Netty
 
     oc process -f graalvm-native-maven-template.yaml \
