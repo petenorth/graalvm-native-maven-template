@@ -8,7 +8,7 @@ The netty,vertx and spring-boot repos used in the examples below are generally f
 
 ## Alternative template
 
-I have also provided an alternative template (suffixed `-alternative`!) which dispenses with the intermediate Docker build and relies on a Jenkins slave which is capable doing the native image build. This slave is based on the Cloudbees Java tools Jenkins slave . This is necessary as the default Openshift Maven slave is RHEL or Centos based and the `native-image` would only work building a statically linked image with Ubuntu, the Cloudbees slave is Ubuntu based. 
+I have also provided an alternative template (suffixed `-alternative`!) which dispenses with the intermediate Docker build and relies on a Jenkins slave which is capable doing the native image build. This slave is based on the Cloudbees Java tools Jenkins slave . This is necessary as the default Openshift Maven slave is RHEL or Centos based and the `native-image` would only work building a statically linked image with Ubuntu, the Cloudbees slave is Ubuntu based. Obviously this has the disadvantage of tieing the architecture of the Maven slave to the resultant image, an intermediate Docker build means that any base image with the necessary dynamic libraries can be slotted in (better for patching and all the other benefits a layer of indirection brings).
 
 In this case the Jenkins needs to be reconfigured so that the maven slave points to 
 
