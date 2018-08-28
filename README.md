@@ -14,9 +14,7 @@ In this case the Jenkins needs to be reconfigured so that the maven slave points
 
     docker.io/petenorth/graalvm-jenkins-slave:ubuntu
     
-The source code for the Docker images is in 
-
-    https://github.com/petenorth/graalvm-jenkins-slave
+The source code for the Docker images is at https://github.com/petenorth/graalvm-jenkins-slave
 
 ## Prerequisites
 
